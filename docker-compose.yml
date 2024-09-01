@@ -1,0 +1,26 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - LOG_REQUESTS=true
+    depends_on:
+      - db
+
+  db:
+    image: nouchka/sqlite3
+    container_name: sqlite_db
+    volumes:
+      - sqlite-data:/var/www/html/database
+    environment:
+      SQLITE_DATABASE: database.sqlite
+
+volumes:
+  sqlite-data:
+    driver: local
